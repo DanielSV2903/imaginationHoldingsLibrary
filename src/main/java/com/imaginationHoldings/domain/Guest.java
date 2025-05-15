@@ -59,6 +59,6 @@ public class Guest extends Person {
 
     @Override
     public String toString() {
-        return "Guest{"+super.toString()+guestRoom+" "+stayPeriod+"}";
+        return "Guest info: "+super.toString()+"\n"+guestRoom+"\nStay peridod: "+stayPeriod;
     }
 }

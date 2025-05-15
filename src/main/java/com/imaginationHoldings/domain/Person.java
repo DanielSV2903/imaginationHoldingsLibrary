@@ -1,5 +1,6 @@
 package com.imaginationHoldings.domain;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -137,10 +138,13 @@ public class Person {
         this.birthDate = resolveBirthDate(birthDate);
         this.age=calculateAge();
     }
-
+    private String formatedDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(this.birthDate);
+    }
     @Override
     public String toString() {
-        return firstName + ',' + lastName + ',' + age +','+ gender + ',' + id+ (passportID!=id? passportID+",":",")+ birthDate+";";
+        return firstName + ',' + lastName + ','+ gender + ',' + id+ (passportID!=id? passportID+",":",")+ formatedDate()+",("+age+");";
     }
 
     @Override

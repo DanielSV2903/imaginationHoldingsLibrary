@@ -64,8 +64,7 @@ public class Hotel {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", rooms=" + rooms +
-                ", company=" + company +
+                ", company=" + company.getName() +
                 '}';
     }
 

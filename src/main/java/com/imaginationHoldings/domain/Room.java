@@ -80,12 +80,10 @@ public class Room{
     @Override
     public String toString() {
         return "Room{" +
-                "id=" + id +
-                ", roomType=" + roomType +
-                ", location='" + location + '\'' +
-                ", description='" + description + '\'' +
-                ", capacity=" + capacity +
-                ", hotel=" + hotel +
+                id +
+                ",Type:" + roomType +
+                ",location:" + location + '\'' +
+                ", hotel:" + hotel.getName()+","+hotel.getAddress() +
                 ", availability=" + availability +
                 '}';
     }
