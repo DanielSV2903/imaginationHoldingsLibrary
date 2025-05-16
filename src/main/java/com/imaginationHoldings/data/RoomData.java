@@ -67,7 +67,7 @@ public class RoomData {
             int capacity = raf.readInt();
             boolean availability = raf.readBoolean();
             //TODO llamar a hotel data para crear el hotel
-            Hotel hotel = new Hotel(hotelId, "", "",null);
+            Hotel hotel = new Hotel(hotelId, "", "");
             Room room = new Room(roomNumber, roomType, hotel, location);
             room.setDescription(description);
             room.setCapacity(capacity);

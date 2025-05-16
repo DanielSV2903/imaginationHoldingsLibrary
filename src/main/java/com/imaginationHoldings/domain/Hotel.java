@@ -17,6 +17,12 @@ public class Hotel {
         this.company = company;
         rooms = new ArrayList<Room>();
     }
+    public Hotel(int id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        rooms = new ArrayList<Room>();
+    }
 
     public int getId() {
         return id;
@@ -60,11 +66,18 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "Hotel{" +
+        if (company!=null)
+            return "Hotel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", company=" + company.getName() +
+                '}';
+        else
+            return"Hotel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 
