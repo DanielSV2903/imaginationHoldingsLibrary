@@ -3,7 +3,7 @@ package com.imaginationHoldings.domain;
 import java.util.Objects;
 
 public class Room{
-    private int id;
+    private int roomNumber;
     private RoomType roomType;
     private String location;
     private String description;
@@ -11,8 +11,8 @@ public class Room{
     private Hotel hotel;
     private boolean availability;
 
-    public Room(int id, RoomType roomType, Hotel hotel, String location) {
-        this.id = id;
+    public Room(int roomNumber, RoomType roomType, Hotel hotel, String location) {
+        this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.hotel = hotel;
         this.location = location;
@@ -21,16 +21,19 @@ public class Room{
         this.description = roomType.getDescription();
     }
 
-    public int getId() {
-        return id;
+    public int getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public RoomType getRoomType() {
         return roomType;
+    }
+    public String getType() {
+        return roomType.getDescription();
     }
 
     public void setRoomType(RoomType roomType) {
@@ -69,7 +72,7 @@ public class Room{
         this.hotel = hotel;
     }
 
-    public boolean isAvailability() {
+    public boolean isAvailable() {
         return availability;
     }
 
@@ -80,7 +83,7 @@ public class Room{
     @Override
     public String toString() {
         return "Room{" +
-                id +
+                roomNumber +
                 ",Type:" + roomType +
                 ",location:" + location + '\'' +
                 ", hotel:" + hotel.getName()+","+hotel.getAddress() +
@@ -92,7 +95,7 @@ public class Room{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Room room)) return false;
-        return id == room.id && roomType == room.roomType && Objects.equals(location, room.location)
+        return roomNumber == room.roomNumber && roomType == room.roomType && Objects.equals(location, room.location)
                 && Objects.equals(hotel, room.hotel);
     }
 }

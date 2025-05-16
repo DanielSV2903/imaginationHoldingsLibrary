@@ -1,0 +1,88 @@
+package com.imaginationHoldings.domain;
+
+import com.imaginationHoldings.domain.payment.PaymentInfo;
+
+import java.util.Objects;
+
+public class Booking {
+    private Room room;
+    private Guest guest;
+    private StayPeriod stayPeriod;
+    private int id;
+    private PaymentInfo paymentInfo;
+
+    public Booking(int id, Room room, Guest guest, StayPeriod stayPeriod,PaymentInfo paymentInfo) {
+        this.id = id;
+        this.room = room;
+        this.guest = guest;
+        this.stayPeriod = stayPeriod;
+        this.paymentInfo = paymentInfo;
+    }
+
+    public Booking(int id, Room room, Guest guest, StayPeriod stayPeriod) throws RoomException {
+        if(room.isAvailable()){
+        this.id = id;
+        this.room = room;
+        this.guest = guest;
+        this.stayPeriod = stayPeriod;
+        this.paymentInfo = null;
+        }else{
+            throw new RoomException("Room is not available, book later");
+        }
+    }
+    public Room getRoom() {
+        return room;
+    }
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public PaymentInfo getPaymentInfo() {
+        return paymentInfo;
+    }
+
+    public void setPaymentInfo(PaymentInfo paymentInfo) {
+        this.paymentInfo = paymentInfo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Guest getGuest() {
+        return guest;
+    }
+
+    public void setGuest(Guest guest) {
+        this.guest = guest;
+    }
+    public long getStayPeriod() {
+        return this.stayPeriod.getNumberOfNights();
+    }
+
+    public void setStayPeriod(StayPeriod stayPeriod) {
+        this.stayPeriod = stayPeriod;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Booking booking)) return false;
+        return id == booking.id && Objects.equals(room, booking.room) && Objects.equals(guest, booking.guest);
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                room +
+                ","+guest +
+                ","+ stayPeriod +
+                ", id=(" + id +
+                "),"+ paymentInfo +
+                '}';
+    }
+}
