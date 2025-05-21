@@ -9,19 +9,28 @@ public class Hotel {
     private String name;
     private String address;
     private List<Room> rooms;
-    private Company company;
-    public Hotel(int id, String name, String address,Company company) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.company = company;
-        rooms = new ArrayList<Room>();
-    }
+
     public Hotel(int id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
         rooms = new ArrayList<Room>();
+    }
+
+    public Hotel() {
+    }
+
+    public void registerRooms(Room room){
+        rooms.add(room);
+    }
+    public Room findRoomByNumber(int roomNumber) throws HotelException {
+        if (rooms.isEmpty())
+            throw new HotelException("El hotel no tiene cuartos registrados");
+        for (Room room:rooms){
+            if (room.getRoomNumber()==roomNumber)
+                return room;
+        }
+        return null;
     }
 
     public int getId() {
@@ -56,24 +65,8 @@ public class Hotel {
         this.rooms = rooms;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
     @Override
     public String toString() {
-        if (company!=null)
-            return "Hotel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", company=" + company.getName() +
-                '}';
-        else
             return"Hotel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
@@ -85,6 +78,6 @@ public class Hotel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Hotel hotel)) return false;
-        return id == hotel.id && Objects.equals(name, hotel.name) && Objects.equals(company, hotel.company);
+        return id == hotel.id;
     }
 }

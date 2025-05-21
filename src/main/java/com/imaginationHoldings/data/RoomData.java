@@ -22,9 +22,16 @@ public class RoomData {
     private static final int AVAILABILITY_SIZE = 1;      // boolean
     private static final int RECORD_SIZE = ROOM_NUMBER_SIZE + ROOM_TYPE_SIZE + HOTEL_ID_SIZE +
             LOCATION_SIZE + DESCRIPTION_SIZE + CAPACITY_SIZE + AVAILABILITY_SIZE;
+    private final File hotelDataFile=new File("C:\\Users\\Lab01\\Desktop\\proyecto\\hotels.dat");
+    private HotelData hotelData;
 
     public RoomData(File file) throws IOException {
         this.raf = new RandomAccessFile(file, "rw");
+        hotelData=new HotelData(hotelDataFile);
+    }
+    public RoomData(String file) throws IOException {
+        this.raf = new RandomAccessFile(file, "rw");
+        hotelData=new HotelData(hotelDataFile);
     }
 
     private byte[] toBytes(String value, int length) {
@@ -66,17 +73,25 @@ public class RoomData {
             String description = readString(DESCRIPTION_SIZE);
             int capacity = raf.readInt();
             boolean availability = raf.readBoolean();
-            //TODO llamar a hotel data para crear el hotel
-            Hotel hotel = new Hotel(hotelId, "", "");
+
+            Hotel hotel = hotelData.findById(hotelId);
             Room room = new Room(roomNumber, roomType, hotel, location);
             room.setDescription(description);
             room.setCapacity(capacity);
             room.setAvailability(availability);
-
             rooms.add(room);
         }
 
         return rooms;
+    }
+    public List<Room>findByHotelId(int hotelID) throws IOException {
+        List<Room> rooms=findAll();
+        List<Room> filteredRooms=new ArrayList<>();
+        for (Room r:rooms){
+            if (r.getHotel().getId()==hotelID)
+                filteredRooms.add(r);
+        }
+        return filteredRooms;
     }
 
     public void close() throws IOException {
@@ -84,6 +99,7 @@ public class RoomData {
             raf.close();
         }
     }
+
 }
 
 
