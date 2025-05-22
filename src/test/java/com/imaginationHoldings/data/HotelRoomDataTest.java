@@ -15,8 +15,9 @@ public class HotelRoomDataTest {
 
     private File hotelFile;
     private File roomFile;
-    private HotelData hotelData;
     private RoomData roomData;
+    private HotelData hotelData;
+    private HotelServiceData hotelServiceData;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -28,12 +29,12 @@ public class HotelRoomDataTest {
 
         hotelData = new HotelData(hotelFile);
         roomData = new RoomData(roomFile);
+        hotelServiceData=new HotelServiceData(hotelData,roomData);
     }
 
     @AfterEach
     void tearDown() throws IOException {
-        hotelData.close();
-        roomData.close();
+        hotelServiceData.close();
         hotelFile.delete();
         roomFile.delete();
     }
@@ -57,8 +58,8 @@ public class HotelRoomDataTest {
 
 
 
-
-        List<Hotel> hotels = hotelData.findAll();
+        List<Hotel> hotels =hotelServiceData.getHotelWithRooms();
+        List<Room> rooms = roomData.findAll(hotels);
 
         assertEquals(2, hotels.size());
 
@@ -74,7 +75,7 @@ public class HotelRoomDataTest {
         assertEquals(1, h2.getRooms().size());
 
 
-        List<Room> rooms = roomData.findAll();
+
         assertEquals(3, rooms.size());
 
         for (Room r : rooms) {

@@ -18,8 +18,8 @@ class PersonTest {
         Hotel hotel=new Hotel(1,"ImaginacionLand Tobosi","Tobosi");
         Room room01=new Room(1,RoomType.SUITE,hotel,hotel.getAddress());
 
-        StayPeriod stayPeriod=new StayPeriod(LocalDate.now(),LocalDate.of(2025,5,18));
+        StayPeriod stayPeriod=new StayPeriod(LocalDate.now(),LocalDate.of(2025,5,23));
         Guest guest=new Guest(p1.getFirstName(),p1.getLastName(),p1.getGender(),p1.getId(),"29/03/05",room01,stayPeriod);
-        System.out.println(guest);
+        System.out.println(guest.getBirthDate());
     }
 }

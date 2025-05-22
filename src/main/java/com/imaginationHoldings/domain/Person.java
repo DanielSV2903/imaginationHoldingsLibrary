@@ -1,3 +1,4 @@
+
 package com.imaginationHoldings.domain;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +17,7 @@ public class Person {
     private String gender;
     private int id;
     private int passportID;
-    private Date birthDate;
+    private LocalDate birthDate;
 
     public Person(String firstName, String lastName, String gender, int id, String birthDate) {
         this.firstName = firstName;
@@ -24,39 +25,35 @@ public class Person {
         this.gender = gender;
         this.id = id;
         this.birthDate = resolveBirthDate(birthDate);
-        this.age=calculateAge();
+        this.age = calculateAge();
         this.passportID = id;
     }
 
-    public Person(String firstName, String lastName, String gender, int passportID, Date birthDate) {
+    public Person(String firstName, String lastName, String gender, int passportID, LocalDate birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.passportID = passportID;
-        this.id=passportID;
+        this.id = passportID;
         this.birthDate = birthDate;
+        this.age = calculateAge();
     }
 
-    public Person(String firstName, String lastName,String gender,int age, int id) {
+    public Person(String firstName, String lastName, String gender, int age, int id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.birthDate = resolveDatebyAge(age);
+        this.birthDate = resolveDateByAge(age);
         this.gender = gender;
         this.id = id;
         this.passportID = id;
     }
 
-
     private int calculateAge() {
-        LocalDate localDate = this.birthDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        LocalDate hoy = LocalDate.now();
-        return Period.between(localDate, hoy).getYears();
+        return Period.between(this.birthDate, LocalDate.now()).getYears();
     }
 
-    private Date resolveBirthDate(String birthDate) {
+    private LocalDate resolveBirthDate(String birthDate) {
         DateTimeFormatter[] formatos = {
                 DateTimeFormatter.ofPattern("dd/MM/yyyy"),
                 DateTimeFormatter.ofPattern("dd/MM/yy")
@@ -64,22 +61,21 @@ public class Person {
 
         for (DateTimeFormatter formato : formatos) {
             try {
-                LocalDate localDate = LocalDate.parse(birthDate, formato);
-                return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                return LocalDate.parse(birthDate, formato);
             } catch (DateTimeParseException e) {
+                // continue trying
             }
         }
         throw new IllegalArgumentException("Formato de fecha no válido: " + birthDate);
     }
-    private Date resolveDatebyAge(int age) {
+
+    private LocalDate resolveDateByAge(int age) {
         if (age < 0) {
             throw new IllegalArgumentException("La edad no puede ser negativa");
         }
-
         int currentYear = LocalDate.now().getYear();
         int birthYear = currentYear - age;
-        LocalDate birthDate = LocalDate.of(birthYear, 1, 1);
-        return Date.from(birthDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return LocalDate.of(birthYear, 1, 1);
     }
 
     public String getFirstName() {
@@ -104,6 +100,7 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+        this.birthDate = resolveDateByAge(age);
     }
 
     public String getGender() {
@@ -130,21 +127,22 @@ public class Person {
         this.passportID = passportID;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(String birthDate) {
         this.birthDate = resolveBirthDate(birthDate);
-        this.age=calculateAge();
+        this.age = calculateAge();
     }
-    private String formatedDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        return formatter.format(this.birthDate);
+
+    public String getFormattedBirthDate() {
+        return birthDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
+
     @Override
     public String toString() {
-        return firstName + ',' + lastName + ','+ gender + ',' + id+ (passportID!=id? passportID+",":",")+ formatedDate()+",("+age+");";
+        return firstName + ',' + lastName + ',' + gender + ',' + id + (passportID != id ? passportID + "," : ",") + getFormattedBirthDate() + ",(" + age + ");";
     }
 
     @Override
