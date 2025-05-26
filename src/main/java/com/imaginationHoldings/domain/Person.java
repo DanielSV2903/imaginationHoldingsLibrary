@@ -29,6 +29,7 @@ public class Person {
         this.passportID = id;
     }
 
+
     public Person(String firstName, String lastName, String gender, int passportID, LocalDate birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
