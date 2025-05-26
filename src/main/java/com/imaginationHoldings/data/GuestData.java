@@ -32,6 +32,9 @@ public class GuestData {
     public GuestData(File file) throws IOException {
         this.raf = new RandomAccessFile(file, "rw");
     }
+    public GuestData(String path) throws IOException {
+        this.raf = new RandomAccessFile(path, "rw");
+    }
 
     private byte[] toBytes(String value, int length) {
         byte[] bytes = new byte[length];
