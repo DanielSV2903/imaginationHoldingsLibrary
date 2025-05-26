@@ -58,7 +58,7 @@ public class Person {
         DateTimeFormatter[] formatos = {
                 DateTimeFormatter.ofPattern("dd/MM/yyyy"),
                 DateTimeFormatter.ofPattern("dd/MM/yy"),
-                DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
         };
 
         for (DateTimeFormatter formato : formatos) {
