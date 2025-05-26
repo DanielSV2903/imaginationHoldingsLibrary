@@ -1,6 +1,5 @@
 package com.imaginationHoldings.domain;
 
-import com.imaginationHoldings.domain.payment.PaymentInfo;
 
 import java.util.Objects;
 

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="imaginationHoldingsLibrary:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/imaginationHoldingsLibrary_jar</output-path>
+    <root id="archive" name="imaginationHoldingsLibrary.jar">
+      <element id="module-output" name="imaginationHoldingsLibrary" />
+    </root>
+  </artifact>
+</component>
