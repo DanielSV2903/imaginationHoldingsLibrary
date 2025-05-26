@@ -10,4 +10,5 @@ public class Protocol {
     public static final String DELETE_HOTEL = "DELETE_HOTEL";
     public static final String DELETE_ROOM = "DELETE_ROOM";
     public static final String EDIT_ROOM = "EDIT_ROOM";
+    public static final String RESERVE_ROOM = "RESERVE_ROOM";
 }

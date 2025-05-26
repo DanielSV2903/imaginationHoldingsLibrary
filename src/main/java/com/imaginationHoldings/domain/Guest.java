@@ -29,6 +29,12 @@ public class Guest extends Person {
         this.stayPeriod = null;
         checkedOut=checkedIn= false;
     }
+    public Guest(String firstName, String lastName,String gender, int id, int age) {
+        super(firstName, lastName, gender, id,age);
+        this.guestRoom = null ;
+        this.stayPeriod = null;
+        checkedOut=checkedIn= false;
+    }
 
     public Room getGuestRoom() {
         return guestRoom;

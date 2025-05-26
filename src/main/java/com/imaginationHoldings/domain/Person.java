@@ -57,6 +57,8 @@ public class Person {
     private LocalDate resolveBirthDate(String birthDate) {
         DateTimeFormatter[] formatos = {
                 DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+                DateTimeFormatter.ofPattern("dd/M/yyyy"),
+                DateTimeFormatter.ofPattern("d/MM/yyyy"),
                 DateTimeFormatter.ofPattern("dd/MM/yy"),
                 DateTimeFormatter.ofPattern("yyyy-MM-dd")
         };
