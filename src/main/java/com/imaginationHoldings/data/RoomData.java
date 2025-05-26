@@ -121,6 +121,49 @@ public class RoomData {
         }
         return false; // habitación no encontrada
     }
+    public boolean delete(int roomNumber) throws IOException {
+        List<Room> roomsToKeep = new ArrayList<>();
+        raf.seek(0);
+        boolean deleted = false;
+
+        while (raf.getFilePointer() < raf.length()) {
+            int currentRoomNumber = raf.readInt();
+            String typeName = readString(ROOM_TYPE_SIZE);
+            int hotelId = raf.readInt();
+            String location = readString(LOCATION_SIZE);
+            String description = readString(DESCRIPTION_SIZE);
+            int capacity = raf.readInt();
+            boolean availability = raf.readBoolean();
+
+            if (currentRoomNumber != roomNumber) {
+                // Guardar el registro
+                RoomType roomType = RoomType.valueOf(typeName);
+                Hotel hotel = new Hotel(hotelId); // Usar ID, nombre vacío como placeholder
+                Room room = new Room(currentRoomNumber, roomType, hotel, location);
+                room.setDescription(description);
+                room.setCapacity(capacity);
+                room.setAvailability(availability);
+                roomsToKeep.add(room);
+            } else {
+                deleted = true;
+            }
+        }
+
+        // Sobrescribir el archivo con los registros que se conservarán
+        raf.setLength(0); // truncar archivo
+        raf.seek(0); // Asegura que se escriba desde el inicio
+        for (Room r : roomsToKeep) {
+            raf.writeInt(r.getRoomNumber());
+            raf.write(toBytes(r.getRoomType().name(), ROOM_TYPE_SIZE));
+            raf.writeInt(r.getHotel().getId());
+            raf.write(toBytes(r.getLocation(), LOCATION_SIZE));
+            raf.write(toBytes(r.getDescription(), DESCRIPTION_SIZE));
+            raf.writeInt(r.getCapacity());
+            raf.writeBoolean(r.isAvailable());
+        }
+
+        return deleted;
+    }
 
 
 

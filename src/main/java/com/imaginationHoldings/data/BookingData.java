@@ -74,6 +74,54 @@ public class BookingData {
 
         return bookings;
     }
+    public boolean update(Booking booking) throws IOException {
+        raf.seek(0);
+
+        while (raf.getFilePointer() < raf.length()) {
+            long recordStart = raf.getFilePointer();
+            int currentId = raf.readInt();
+
+            if (currentId == booking.getId()) {
+                raf.seek(recordStart);  // Volver al inicio del registro
+
+                raf.writeInt(booking.getId());
+                raf.writeInt(booking.getRoom() != null ? booking.getRoom().getRoomNumber() : -1);
+                raf.writeInt(booking.getGuest().getId());
+                raf.writeInt(booking.getGuestAmount());
+                writeDate(booking.getStayPeriod().getCheckInDate().toString());
+                writeDate(booking.getStayPeriod().getCheckOutDate().toString());
+
+                return true;
+            } else {
+                raf.seek(recordStart + RECORD_SIZE);
+            }
+        }
+
+        return false; // No encontrado
+    }
+    public boolean delete(int bookingId) throws IOException, RoomException {
+        List<Booking> toKeep = new ArrayList<>();
+
+        boolean found = false;
+        for (Booking b : findAll()) {
+            if (b.getId() != bookingId) {
+                toKeep.add(b);
+            } else {
+                found = true;
+            }
+        }
+
+        if (found) {
+            raf.setLength(0); // Truncar archivo
+            for (Booking b : toKeep) {
+                insert(b);
+            }
+        }
+
+        return found;
+    }
+
+
 
     public void close() throws IOException {
         if (raf != null) {

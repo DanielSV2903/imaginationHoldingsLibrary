@@ -72,17 +72,57 @@ public class HotelData{
                 return hotel;
             }
         }
-//        raf.seek(0);
-//        while (raf.getFilePointer() < raf.length()) {
-//            int hotelId = raf.readInt();
-//            String name = readString(NAME_SIZE);
-//            String location = readString(LOCATION_SIZE);
-//            if (hotelId == id) {
-//                return new Hotel(hotelId, name, location);
-//            }
-//        }
+
         return null;
     }
+    public boolean update(Hotel hotel) throws IOException {
+        raf.seek(0);
+
+        while (raf.getFilePointer() < raf.length()) {
+            long recordStart = raf.getFilePointer();
+            int hotelID = raf.readInt();
+
+            if (hotelID == hotel.getId()) {
+                // Encontramos el registro a modificar
+                raf.seek(recordStart); // volvemos a inicio de registro
+
+                // Escribimos los datos actualizados
+                raf.writeInt(hotel.getId());
+                raf.write(toBytes(hotel.getName(), NAME_SIZE));
+                raf.write(toBytes(hotel.getAddress(), LOCATION_SIZE));
+                return true; // actualización exitosa
+            } else {
+                // Saltamos el resto del registro ya que sólo leímos el int del roomNumber
+                raf.skipBytes(RECORD_SIZE - HOTEL_ID_SIZE);
+            }
+        }
+        return false; // habitación no encontrada
+    }
+    public void delete(int idToDelete) throws IOException {
+        List<Hotel> hotelsToKeep = new ArrayList<>();
+
+        // Leer todos los hoteles y excluir el que se quiere eliminar
+        raf.seek(0);
+        while (raf.getFilePointer() < raf.length()) {
+            int hotelId = raf.readInt();
+            String name = readString(NAME_SIZE);
+            String location = readString(LOCATION_SIZE);
+
+            if (hotelId != idToDelete) {
+                hotelsToKeep.add(new Hotel(hotelId, name, location));
+            }
+        }
+
+        // Truncar archivo y reescribir los hoteles restantes
+        raf.setLength(0);
+        raf.seek(0);
+        for (Hotel h : hotelsToKeep) {
+            raf.writeInt(h.getId());
+            raf.write(toBytes(h.getName(), NAME_SIZE));
+            raf.write(toBytes(h.getAddress(), LOCATION_SIZE));
+        }
+    }
+
 
     public void close() throws IOException {
         if (raf != null) {

@@ -22,6 +22,10 @@ public class Hotel implements Serializable {
     public Hotel() {
     }
 
+    public Hotel(int id) {
+        this.id = id;
+    }
+
     public void registerRooms(Room room){
         rooms.add(room);
     }
