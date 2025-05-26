@@ -1,18 +1,28 @@
 
 package com.imaginationHoldings.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Guest extends Person {
+public class Guest extends Person implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Room guestRoom;
     private StayPeriod stayPeriod;
     boolean checkedOut, checkedIn;
+
 
     public Guest(String firstName, String lastName, String gender, int id, String birthDate, Room guestRoom, StayPeriod stayPeriod) {
         super(firstName, lastName, gender, id, birthDate);
         this.guestRoom = guestRoom;
         this.stayPeriod = stayPeriod;
+        checkedOut=checkedIn= false;
+    }
+
+    public Guest(int id) {
+        super(id);
+        this.guestRoom = null;
+        this.stayPeriod = null;
         checkedOut=checkedIn= false;
     }
 

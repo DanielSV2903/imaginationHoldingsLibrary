@@ -1,8 +1,10 @@
 package com.imaginationHoldings.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Room{
+public class Room implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int roomNumber;
     private RoomType roomType;
     private String location;
@@ -19,6 +21,10 @@ public class Room{
         this.availability = true;
         this.capacity = roomType.getCapacity();
         this.description = roomType.getDescription();
+    }
+
+    public Room(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public int getRoomNumber() {

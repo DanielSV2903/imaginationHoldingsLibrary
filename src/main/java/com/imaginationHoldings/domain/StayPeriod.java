@@ -1,10 +1,12 @@
 package com.imaginationHoldings.domain;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class StayPeriod {
+public class StayPeriod implements Serializable {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
+    private static final long serialVersionUID = 1L;
 
     public StayPeriod(LocalDate checkInDate, LocalDate checkOutDate) {
         if (checkOutDate.isBefore(checkInDate)) {

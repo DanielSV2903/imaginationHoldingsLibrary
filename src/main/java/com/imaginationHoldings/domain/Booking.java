@@ -1,13 +1,16 @@
 package com.imaginationHoldings.domain;
 
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Booking {
+public class Booking implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Room room;
     private Guest guest;
     private StayPeriod stayPeriod;
     private int id;
+    private int guestAmount;
 
     public Booking(int id, Room room, Guest guest, StayPeriod stayPeriod) throws RoomException {
         if(room.isAvailable()){
@@ -19,6 +22,27 @@ public class Booking {
             throw new RoomException("Room is not available, book later");
         }
     }
+
+    public Booking( int id,Room room, Guest guest,int guestAmount,StayPeriod stayPeriod) throws RoomException {
+        if(room.isAvailable()) {
+            this.room = room;
+            this.guest = guest;
+            this.stayPeriod = stayPeriod;
+            this.id = id;
+        this.guestAmount = guestAmount;
+        }else{
+            throw new RoomException("Room is not available, book later");
+        }
+    }
+
+    public int getGuestAmount() {
+        return guestAmount;
+    }
+
+    public void setGuestAmount(int guestAmount) {
+        this.guestAmount = guestAmount;
+    }
+
     public Room getRoom() {
         return room;
     }
@@ -39,8 +63,11 @@ public class Booking {
     public void setGuest(Guest guest) {
         this.guest = guest;
     }
-    public long getStayPeriod() {
+    public long getNumberOfNightsPeriod() {
         return this.stayPeriod.getNumberOfNights();
+    }
+    public StayPeriod getStayPeriod() {
+        return this.stayPeriod;
     }
 
     public void setStayPeriod(StayPeriod stayPeriod) {

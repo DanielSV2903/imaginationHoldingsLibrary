@@ -1,6 +1,7 @@
 
 package com.imaginationHoldings.domain;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -10,7 +11,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Objects;
 
-public class Person {
+public class Person implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String firstName;
     private String lastName;
     private int age;
@@ -27,6 +29,15 @@ public class Person {
         this.birthDate = resolveBirthDate(birthDate);
         this.age = calculateAge();
         this.passportID = id;
+    }
+    public Person(int id) {
+        this.id = id;
+        this.passportID = id;
+        this.firstName = "";
+        this.lastName = "";
+        this.gender = "";
+        this.birthDate = LocalDate.now();
+        this.age = calculateAge();
     }
 
 
@@ -60,7 +71,11 @@ public class Person {
                 DateTimeFormatter.ofPattern("dd/M/yyyy"),
                 DateTimeFormatter.ofPattern("d/MM/yyyy"),
                 DateTimeFormatter.ofPattern("dd/MM/yy"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+                DateTimeFormatter.ofPattern("yyyy-M-d"),
+                DateTimeFormatter.ofPattern("yyyy-MM-d")
+
+
         };
 
         for (DateTimeFormatter formato : formatos) {

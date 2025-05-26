@@ -108,6 +108,66 @@ public class GuestData {
 
         return guests;
     }
+    public List<Guest> findAll() throws IOException {
+        List<Guest> guests = new ArrayList<>();
+        raf.seek(0);
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
+
+        while (raf.getFilePointer() < raf.length()) {
+            int id = raf.readInt();
+            String firstName = readString(NAME_SIZE);
+            String lastName = readString(NAME_SIZE);
+            String gender = readString(GENDER_SIZE);
+            String birthDateStr = readString(BIRTH_DATE_SIZE);
+            int roomNumber = raf.readInt();
+            String checkInStr = readString(CHECKIN_DATE_SIZE);
+            String checkOutStr = readString(CHECKOUT_DATE_SIZE);
+            boolean checkedIn = raf.readBoolean();
+            boolean checkedOut = raf.readBoolean();
+
+            Guest guest = new Guest(firstName, lastName, gender, id,birthDateStr);
+            guest.setCheckedIn(checkedIn);
+            guest.setCheckedOut(checkedOut);
+            guests.add(guest);
+        }
+
+        return guests;
+    }
+    public Guest findById(int searchId) throws IOException {
+        raf.seek(0);
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
+
+        while (raf.getFilePointer() < raf.length()) {
+            long recordStart = raf.getFilePointer(); // Para retroceder si no es el ID buscado
+            int id = raf.readInt();
+
+            if (id == searchId) {
+                String firstName = readString(NAME_SIZE);
+                String lastName = readString(NAME_SIZE);
+                String gender = readString(GENDER_SIZE);
+                String birthDateStr = readString(BIRTH_DATE_SIZE);
+                int roomNumber = raf.readInt();
+                String checkInStr = readString(CHECKIN_DATE_SIZE);
+                String checkOutStr = readString(CHECKOUT_DATE_SIZE);
+                boolean checkedIn = raf.readBoolean();
+                boolean checkedOut = raf.readBoolean();
+
+                StayPeriod stayPeriod = new StayPeriod(
+                        LocalDate.parse(checkInStr, dtf),
+                        LocalDate.parse(checkOutStr, dtf)
+                );
+
+                Guest guest = new Guest(firstName, lastName, gender, id, LocalDate.parse(birthDateStr, dtf), null, stayPeriod);
+                guest.setCheckedIn(checkedIn);
+                guest.setCheckedOut(checkedOut);
+                return guest;
+            } else {
+                raf.seek(recordStart + RECORD_SIZE);
+            }
+        }
+
+        return null;
+    }
 
     public void close() throws IOException {
         if (raf != null) raf.close();

@@ -15,21 +15,29 @@ public class HotelRoomDataTest {
 
     private File hotelFile;
     private File roomFile;
+    private File bookingFile;
+    private File guestFile;
     private RoomData roomData;
     private HotelData hotelData;
+    private BookingData bookingData;
+    private GuestData guestData;
     private HotelServiceData hotelServiceData;
 
     @BeforeEach
     void setUp() throws IOException {
         hotelFile = new File("test_hotels.dat");
         roomFile = new File("test_rooms.dat");
+        bookingFile = new File("test_books.dat");
+        guestFile = new File("test_guests.dat");
 
         if (hotelFile.exists()) hotelFile.delete();
         if (roomFile.exists()) roomFile.delete();
 
         hotelData = new HotelData(hotelFile);
         roomData = new RoomData(roomFile);
-        hotelServiceData=new HotelServiceData(hotelData,roomData);
+        bookingData=new BookingData(bookingFile);
+        guestData=new GuestData(guestFile);
+        hotelServiceData=new HotelServiceData(hotelFile,roomFile,guestFile,bookingFile);
     }
 
     @AfterEach

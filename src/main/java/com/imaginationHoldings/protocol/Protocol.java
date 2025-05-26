@@ -11,4 +11,5 @@ public class Protocol {
     public static final String DELETE_ROOM = "DELETE_ROOM";
     public static final String EDIT_ROOM = "EDIT_ROOM";
     public static final String RESERVE_ROOM = "RESERVE_ROOM";
+    public static final String GET_ALL_ROOMS_ID= "GET_ALL_ROOMS_ID";
 }

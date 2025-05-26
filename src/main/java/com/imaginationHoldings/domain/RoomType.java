@@ -1,5 +1,7 @@
 package com.imaginationHoldings.domain;
 
+import java.io.Serializable;
+
 public enum RoomType {
     SINGLE("Single Room", 1),
     DOUBLE("Double Room", 2),
@@ -28,7 +30,9 @@ public enum RoomType {
         return formattedName();
     }
 
+
     public String formattedName() {
         return description + " (Capacity: " + capacity + ")";
     }
+
 }

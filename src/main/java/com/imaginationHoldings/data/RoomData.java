@@ -93,6 +93,35 @@ public class RoomData {
 
         return rooms;
     }
+    public boolean update(Room room) throws IOException {
+        raf.seek(0);
+
+        while (raf.getFilePointer() < raf.length()) {
+            long recordStart = raf.getFilePointer();
+            int roomNumber = raf.readInt();
+
+            if (roomNumber == room.getRoomNumber()) {
+                // Encontramos el registro a modificar
+                raf.seek(recordStart); // volvemos a inicio de registro
+
+                // Escribimos los datos actualizados
+                raf.writeInt(room.getRoomNumber());
+                raf.write(toBytes(room.getRoomType().name(), ROOM_TYPE_SIZE));
+                raf.writeInt(room.getHotel().getId());
+                raf.write(toBytes(room.getLocation(), LOCATION_SIZE));
+                raf.write(toBytes(room.getDescription(), DESCRIPTION_SIZE));
+                raf.writeInt(room.getCapacity());
+                raf.writeBoolean(room.isAvailable());
+
+                return true; // actualización exitosa
+            } else {
+                // Saltamos el resto del registro ya que sólo leímos el int del roomNumber
+                raf.skipBytes(RECORD_SIZE - ROOM_NUMBER_SIZE);
+            }
+        }
+        return false; // habitación no encontrada
+    }
+
 
 
     public void close() throws IOException {
