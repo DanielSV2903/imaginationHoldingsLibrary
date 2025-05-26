@@ -56,9 +56,16 @@ public class GuestData {
         raf.write(toBytes(guest.getLastName(), NAME_SIZE));
         raf.write(toBytes(guest.getGender(), GENDER_SIZE));
         raf.write(toBytes(guest.getBirthDate().toString(), BIRTH_DATE_SIZE));
-        raf.writeInt(guest.getGuestRoom().getRoomNumber());
-        raf.write(toBytes(guest.getStayPeriod().getCheckInDate().toString(), CHECKIN_DATE_SIZE));
-        raf.write(toBytes(guest.getStayPeriod().getCheckOutDate().toString(), CHECKOUT_DATE_SIZE));
+        if (guest.getGuestRoom() != null)
+            raf.writeInt(guest.getGuestRoom().getRoomNumber());
+        else raf.writeInt(-1);
+        if (guest.getStayPeriod() != null){
+            raf.write(toBytes(guest.getStayPeriod().getCheckInDate().toString(), CHECKIN_DATE_SIZE));
+            raf.write(toBytes(guest.getStayPeriod().getCheckOutDate().toString(), CHECKOUT_DATE_SIZE));
+        }
+        else{ raf.write(toBytes("null",CHECKIN_DATE_SIZE));
+        raf.write(toBytes("null",CHECKOUT_DATE_SIZE));
+        }
         raf.writeBoolean(guest.isCheckedIn());
         raf.writeBoolean(guest.isCheckedOut());
     }
