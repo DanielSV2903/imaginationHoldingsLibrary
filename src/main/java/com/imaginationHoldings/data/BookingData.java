@@ -50,7 +50,7 @@ public class BookingData {
         return new String(bytes, StandardCharsets.UTF_8).trim();
     }
 
-    public List<Booking> findAll() throws IOException, RoomException {
+    public List<Booking> findAll() throws IOException {
         List<Booking> bookings = new ArrayList<>();
         raf.seek(0);
 
