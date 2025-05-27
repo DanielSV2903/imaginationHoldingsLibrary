@@ -12,4 +12,5 @@ public class Protocol {
     public static final String EDIT_ROOM = "EDIT_ROOM";
     public static final String RESERVE_ROOM = "RESERVE_ROOM";
     public static final String GET_ALL_ROOMS_ID= "GET_ALL_ROOMS_ID";
+    public static final String GET_BOOKINGS = "GET_BOOKINGS";
 }
