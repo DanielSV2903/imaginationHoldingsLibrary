@@ -17,6 +17,7 @@ public class Response implements Serializable {
     public static final String GUEST_NOT_FOUND = "GUEST_NOT_FOUND";
     public static final String GUEST_UPDATED = "GUEST_UPDATED";
     public static final String GUEST_DELETED = "GUEST_DELETED";
+    public static final String GUEST_ALREADY_EXISTS = "GUEST_ALREADY_EXISTS";
 
     public static final String BOOKING_DONE = "BOOKING_DONE";
     public static final String BOOKING_NOT_FOUND = "BOOKING_NOT_FOUND";
