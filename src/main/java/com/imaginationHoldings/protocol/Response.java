@@ -12,6 +12,7 @@ public class Response implements Serializable {
     public static final String ROOM_UPDATED = "ROOM_UPDATED";
     public static final String ROOM_DELETED = "ROOM_DELETED";
     public static final String ROOM_NOT_FOUND = "ROOM_NOT_FOUND";
+    public static final String ROOM_ALREADY_EXISTS = "ROOM ALREADY_EXISTS";
 
     public static final String GUEST_REGISTERED = "GUEST_REGISTERED";
     public static final String GUEST_NOT_FOUND = "GUEST_NOT_FOUND";
