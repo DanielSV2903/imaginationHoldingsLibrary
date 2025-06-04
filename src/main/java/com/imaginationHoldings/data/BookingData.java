@@ -121,6 +121,22 @@ public class BookingData {
         return found;
     }
 
+    public boolean checkAvailabilityOnSP(int roomNumber,StayPeriod stayPeriod) throws IOException {
+            List<Booking> allBookings = findAll();
+            for (Booking b : allBookings) {
+                if (b.getRoom() != null && b.getRoom().getRoomNumber() == roomNumber) {
+                    StayPeriod bookedPeriod = b.getStayPeriod();
+
+                    boolean overlaps = !stayPeriod.getCheckOutDate().isBefore(bookedPeriod.getCheckInDate()) &&
+                            !stayPeriod.getCheckInDate().isAfter(bookedPeriod.getCheckOutDate());
+
+                    if (overlaps) {
+                        return false;
+                    }
+                }
+            }
+        return true;
+    }
 
 
     public void close() throws IOException {
