@@ -19,5 +19,6 @@ public class Protocol {
     public static final String EDIT_GUEST= "EDIT_GUEST";
     public static final String DELETE_GUEST = "DELETE_GUEST";
     public static final String CHECK_AVAILABILITY_BY_STAY_PERIOD = "CHECK_AVAILABILITY_BY_STAY_PERIOD";
+    public static final String GET_ALL_GUESTS = "GET_ALL_GUESTS";
 
 }

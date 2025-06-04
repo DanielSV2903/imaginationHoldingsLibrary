@@ -42,7 +42,17 @@ public class HotelServiceData {
     }
 
     public Hotel findHotelById(int id) throws IOException {
-        return hotelData.findById(id);
+        List<Hotel> hotels = hotelData.findAll();
+        List<Room> rooms = roomData.findAll(hotels);
+        List<Room> aux=new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getHotel().getId() == id) {
+                aux.add(room);
+            }
+        }
+        Hotel hotel =hotelData.findById(id);
+        hotel.setRooms(aux);
+        return hotel;
     }
 
     public Room findRoomByID(int roomNumber) throws IOException {
@@ -55,7 +65,6 @@ public class HotelServiceData {
         return null;
     }
 
-    // 🔥 NUEVO: método para recuperar bookings con Room y Guest reconstruidos
     public List<Booking> getAllBookings() throws IOException, RoomException {
         List<Booking> bookings = new ArrayList<>();
         List<Room> rooms = roomData.findAll(hotelData.findAll());

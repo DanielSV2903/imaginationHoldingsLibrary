@@ -71,6 +71,7 @@ public class Person implements Serializable {
                 DateTimeFormatter.ofPattern("dd/M/yyyy"),
                 DateTimeFormatter.ofPattern("d/MM/yyyy"),
                 DateTimeFormatter.ofPattern("dd/MM/yy"),
+                DateTimeFormatter.ofPattern("d/M/yyyy"),
                 DateTimeFormatter.ofPattern("yyyy-MM-dd"),
                 DateTimeFormatter.ofPattern("yyyy-M-d"),
                 DateTimeFormatter.ofPattern("yyyy-MM-d")
