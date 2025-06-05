@@ -14,9 +14,10 @@ public class BookingData {
     private RandomAccessFile raf;
     private static final int ID_SIZE = 4;              // int
     private static final int ROOM_ID_SIZE = 4;         // int
+    private static final int ROOM_HOTEL_ID_SIZE = 4;         // int
     private static final int GUEST_ID_SIZE = 4;        // int
     private static final int DATE_SIZE = 12;           // "yyyy-MM-dd" (10 chars + 2 padding)
-    private static final int RECORD_SIZE = ID_SIZE + ROOM_ID_SIZE + GUEST_ID_SIZE + 2 * DATE_SIZE;
+    private static final int RECORD_SIZE = ID_SIZE + ROOM_ID_SIZE + ROOM_HOTEL_ID_SIZE + GUEST_ID_SIZE + 4 + 2 * DATE_SIZE;
 
     public BookingData(String filePath) throws IOException {
         this.raf = new RandomAccessFile(filePath, "rw");
@@ -28,9 +29,13 @@ public class BookingData {
     public void insert(Booking booking) throws IOException {
         raf.seek(raf.length());
         raf.writeInt(booking.getId());
-        if (booking.getRoom() != null)
+        if (booking.getRoom() != null){
             raf.writeInt(booking.getRoom().getRoomNumber());
-        else raf.writeInt(-1);
+            raf.writeInt(booking.getRoom().getHotel().getId());
+        } else {
+            raf.writeInt(-1);
+//            raf.writeInt(-1);
+        }
         raf.writeInt(booking.getGuest().getId());
         raf.writeInt(booking.getGuestAmount());
         writeDate(booking.getStayPeriod().getCheckInDate().toString());
@@ -57,23 +62,40 @@ public class BookingData {
         while (raf.getFilePointer() < raf.length()) {
             int id = raf.readInt();
             int roomId = raf.readInt();
-            int amount = raf.readInt();
+            int hotelId = raf.readInt(); // ← leer el hotelId
             int guestId = raf.readInt();
+            int guestAmount = raf.readInt(); // ← leer el guestAmount
             String startDate = readDate();
             String endDate = readDate();
 
-            // Reconstrucción parcial del objeto (Room y Guest pueden ser recuperados con sus respectivos DAOs)
-            Booking booking = new Booking(id,
-                    new Room(roomId),
+            // Reconstrucción del objeto Room y Guest (parcialmente)
+            Room room = new Room(roomId);
+            Hotel hotel = new Hotel(hotelId);
+            room.setHotel(hotel); // ← vincular el hotel al room
+
+            Booking booking = new Booking(
+                    id,
+                    room,
                     new Guest(guestId),
-                    amount,
-                    new StayPeriod(LocalDate.parse(startDate),LocalDate.parse(endDate))
+                    guestAmount,
+                    new StayPeriod(LocalDate.parse(startDate), LocalDate.parse(endDate))
             );
             bookings.add(booking);
         }
 
         return bookings;
     }
+
+    public Booking findById(int id) throws IOException {
+        List<Booking> bookings = findAll();
+        for (Booking booking : bookings) {
+            if (booking.getId() == id) {
+                return booking;
+            }
+        }
+        return null;
+    }
+
     public boolean update(Booking booking) throws IOException {
         raf.seek(0);
 
@@ -85,7 +107,13 @@ public class BookingData {
                 raf.seek(recordStart);  // Volver al inicio del registro
 
                 raf.writeInt(booking.getId());
-                raf.writeInt(booking.getRoom() != null ? booking.getRoom().getRoomNumber() : -1);
+                if (booking.getRoom() != null) {
+                    raf.writeInt(booking.getRoom().getRoomNumber());
+                    raf.writeInt(booking.getRoom().getHotel().getId()); // ← guardar hotelId
+                } else {
+                    raf.writeInt(-1); // roomId
+                    raf.writeInt(-1); // hotelId
+                }
                 raf.writeInt(booking.getGuest().getId());
                 raf.writeInt(booking.getGuestAmount());
                 writeDate(booking.getStayPeriod().getCheckInDate().toString());
@@ -97,8 +125,9 @@ public class BookingData {
             }
         }
 
-        return false; // No encontrado
+        return false;
     }
+
     public boolean delete(int bookingId) throws IOException, RoomException {
         List<Booking> toKeep = new ArrayList<>();
 

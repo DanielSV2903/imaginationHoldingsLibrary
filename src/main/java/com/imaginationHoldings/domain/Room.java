@@ -92,7 +92,7 @@ public class Room implements Serializable {
                 roomNumber +
                 ",Type:" + roomType +
                 ",location:" + location + '\'' +
-                ", hotel:" + hotel.getName()+","+hotel.getAddress() +
+                ", hotel:" + hotel.getName()!=null?hotel.getName():""+","+hotel.getAddress()!=null?hotel.getAddress():"" +
                 ", availability=" + availability +
                 '}';
     }
