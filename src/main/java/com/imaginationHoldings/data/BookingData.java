@@ -150,10 +150,10 @@ public class BookingData {
         return found;
     }
 
-    public boolean checkAvailabilityOnSP(int roomNumber,StayPeriod stayPeriod) throws IOException {
+    public boolean checkAvailabilityOnSP(int roomNumber,int hotelID,StayPeriod stayPeriod) throws IOException {
             List<Booking> allBookings = findAll();
             for (Booking b : allBookings) {
-                if (b.getRoom() != null && b.getRoom().getRoomNumber() == roomNumber) {
+                if (b.getRoom() != null && b.getRoom().getRoomNumber() == roomNumber&&b.getRoom().getHotel().getId() == hotelID) {
                     StayPeriod bookedPeriod = b.getStayPeriod();
 
                     boolean overlaps = !stayPeriod.getCheckOutDate().isBefore(bookedPeriod.getCheckInDate()) &&
