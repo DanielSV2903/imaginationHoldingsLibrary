@@ -88,11 +88,19 @@ public class Room implements Serializable {
 
     @Override
     public String toString() {
+        if (hotel.getName()!=null)
+            return "Room{" +
+                roomNumber +
+                ",Type:" + roomType +
+                ",location:" + location + '\'' +
+                ", hotel:" + hotel.getName()+","+hotel.getAddress()+
+                ", availability=" + availability +
+                '}';
         return "Room{" +
                 roomNumber +
                 ",Type:" + roomType +
                 ",location:" + location + '\'' +
-                ", hotel:" + hotel.getName()!=null?hotel.getName():""+","+hotel.getAddress()!=null?hotel.getAddress():"" +
+                ", hotel:" + hotel.getId()+
                 ", availability=" + availability +
                 '}';
     }

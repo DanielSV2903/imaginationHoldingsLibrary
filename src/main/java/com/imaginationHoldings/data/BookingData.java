@@ -71,7 +71,7 @@ public class BookingData {
             // Reconstrucción del objeto Room y Guest (parcialmente)
             Room room = new Room(roomId);
             Hotel hotel = new Hotel(hotelId);
-            room.setHotel(hotel); // ← vincular el hotel al room
+            room.setHotel(hotel);
 
             Booking booking = new Booking(
                     id,

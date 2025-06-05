@@ -70,10 +70,12 @@ public class HotelServiceData {
         List<Room> rooms = roomData.findAll(hotelData.findAll());
 
         for (Booking partial : bookingData.findAll()) {
-            Room fullRoom = findRoomByIdFromList(rooms, partial.getRoom().getRoomNumber());
+            Room fullRoom = findRoomByIdFromList(rooms,partial.getRoom().getRoomNumber());
+            Hotel hotel=hotelData.findById(fullRoom.getHotel().getId());
+            fullRoom.setHotel(hotel);
             Guest fullGuest = guestData.findById(partial.getGuest().getId());
 
-            if (fullRoom != null && fullGuest != null) {
+            if (fullRoom != null ) {
                 Booking booking = new Booking(
                         partial.getId(),
                         fullRoom,
