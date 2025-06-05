@@ -14,10 +14,10 @@ public class Booking implements Serializable {
 
     public Booking(int id, Room room, Guest guest, StayPeriod stayPeriod) throws RoomException {
         if(room.isAvailable()){
-        this.id = id;
-        this.room = room;
-        this.guest = guest;
-        this.stayPeriod = stayPeriod;
+            this.id = id;
+            this.room = room;
+            this.guest = guest;
+            this.stayPeriod = stayPeriod;
         }else{
             throw new RoomException("Room is not available, book later");
         }

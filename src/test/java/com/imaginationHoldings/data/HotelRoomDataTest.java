@@ -55,7 +55,6 @@ public class HotelRoomDataTest {
         hotelData.insert(hotel1);
         hotelData.insert(hotel2);
 
-
         Room room1 = new Room(101, RoomType.SUITE, hotel1, "Tobosi");
         Room room2 = new Room(102, RoomType.DOUBLE, hotel1, "Tobosi");
         Room room3 = new Room(201, RoomType.FAMILY, hotel2, "Cartago");
@@ -63,8 +62,6 @@ public class HotelRoomDataTest {
         roomData.insert(room1);
         roomData.insert(room2);
         roomData.insert(room3);
-
-
 
         List<Hotel> hotels =hotelServiceData.getHotelWithRooms();
         List<Room> rooms = roomData.findAll(hotels);
